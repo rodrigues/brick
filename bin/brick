@@ -1,0 +1,12 @@
+#!/usr/bin/env ruby
+
+require "brick"
+
+options = Slop.parse help: true do
+  on :b, :bricklayer, "Bricklayer host"
+  on :n, :name,       "Project name"
+  on :s, :server,     "Deploy server"
+  on :u, :user,       "Deploy user"
+end
+
+Brick.run!(options.to_hash)
