@@ -1,4 +1,4 @@
-require "active_support/core_ext/module/attribute_accessors"
+require "slop"
 require "json"
 require "rest_client"
 require "net/ssh"
@@ -6,6 +6,7 @@ require "net/ssh"
 require "brick/configuration"
 require "brick/bricklayer"
 require "brick/testing_tag"
+require "brick/server"
 require "brick/version"
 
 module Brick

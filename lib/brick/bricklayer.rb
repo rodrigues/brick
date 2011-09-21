@@ -12,13 +12,17 @@ module Brick
       done = false
 
       MAX_TRIES.times do
-        log = RestClient.get(log_uri % build["build"])
+        log = RestClient.get(log_uri % build)
         done = log.lines.to_a.last =~ SUCCESS
         break if done
         sleep 2
       end
 
-      exit 1 unless done
+      unless done
+        abort "build not succeeded"
+      end
+
+      true
     end
 
     def project(tag)
@@ -34,6 +38,10 @@ module Brick
 
       unless done
         abort "tag #{tag} isn't the last. last_tag_testing (#{project["last_tag_testing"]})"
+      end
+
+      if Brick.verbose?
+        puts "project: #{project}"
       end
 
       project
@@ -58,6 +66,10 @@ module Brick
 
       unless done
         abort "build not found for tag #{tag}"
+      end
+
+      if Brick.verbose?
+        puts "build: #{build}"
       end
 
       build["build"]
