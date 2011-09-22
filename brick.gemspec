@@ -7,9 +7,9 @@ Gem::Specification.new do |s|
   s.version     = Brick::VERSION
   s.authors     = ["Victor Cavalcanti"]
   s.email       = ["victorc.rodrigues@gmail.com"]
-  s.homepage    = ""
-  s.summary     = "Sync testing tags, wait bricklayer and update your server"
-  s.description = ""
+  s.homepage    = "http://github.com/rodrigues/brick"
+  s.summary     = "Deploy debian packages using bricklayer"
+  s.description = "Creates a testing tag, waits for bricklayer to build the debian package and then updates your server"
 
   s.rubyforge_project = "brick"
 
