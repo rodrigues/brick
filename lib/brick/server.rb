@@ -4,42 +4,28 @@ module Brick
     MAX_TRIES = 20
 
     def deploy(tag)
-      done = false
-
       MAX_TRIES.times do
         Net::SSH.start Brick.deploy_server, Brick.deploy_user do |ssh|
-          update = ssh.exec!("apt-get update")
-
-          if Brick.verbose?
-            puts "apt-get update"
-            puts update
-          end
-
-          cache_show = ssh.exec!("apt-cache show #{Brick.package_name}")
-
-          if Brick.verbose?
-            puts "apt-cache show"
-            puts cache_show
-          end
-
+          exec(ssh, "apt-get update")
+          cache_show = exec(ssh, "apt-cache show #{Brick.package_name}")
           version = tag.split('_')[1]
 
           unless cache_show =~ /#{Brick.package_name}_#{version}_(.*)\.deb/
+            sleep 2
             next
           end
 
-          install = ssh.exec!("apt-get install #{Brick.package_name}")
-
-          if Brick.verbose?
-            puts "apt-get install"
-            puts install
-          end
-
-          done = true
+          exec(ssh, "apt-get install #{Brick.package_name}")
+          break
         end
+      end
+    end
 
-        break if done
-        sleep 2
+    def exec(ssh, command)
+      ssh.exec!(command).tap do |result|
+        return result unless Brick.verbose?
+        puts command
+        puts result
       end
     end
   end
