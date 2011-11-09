@@ -15,7 +15,7 @@ module Brick
             next
           end
 
-          exec(ssh, "apt-get install #{Brick.package_name}")
+          exec(ssh, "apt-get install -y #{Brick.package_name}")
           break
         end
       end
