@@ -1,7 +1,7 @@
 module Brick
   module Bricklayer
     extend self
-    MAX_TRIES = 40
+    MAX_TRIES = 80
     SUCCESS = %r{^dpkg-buildpackage: full upload; Debian-native package \(full source is included\)}
 
     def wait_build(tag)

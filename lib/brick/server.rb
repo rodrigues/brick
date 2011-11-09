@@ -1,7 +1,7 @@
 module Brick
   module Server
     extend self
-    MAX_TRIES = 20
+    MAX_TRIES = 50
 
     def deploy(tag)
       MAX_TRIES.times do
@@ -15,7 +15,7 @@ module Brick
             next
           end
 
-          exec(ssh, "apt-get install -y #{Brick.package_name}")
+          exec(ssh, "apt-get install --force-yes -y #{Brick.package_name}")
           break
         end
       end
