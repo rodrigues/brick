@@ -1,10 +1,9 @@
 module Brick
   module Server
     extend self
-    MAX_TRIES = 50
 
     def deploy(tag)
-      MAX_TRIES.times do
+      Brick.max_tries.times do
         Net::SSH.start Brick.deploy_server, Brick.deploy_user do |ssh|
           exec(ssh, "apt-get update")
           cache_show = exec(ssh, "apt-cache show #{Brick.package_name}")
