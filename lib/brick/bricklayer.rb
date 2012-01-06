@@ -1,7 +1,6 @@
 module Brick
   module Bricklayer
     extend self
-    MAX_TRIES = 80
     SUCCESS = %r{^dpkg-buildpackage: full upload; Debian-native package \(full source is included\)}
 
     def wait_build(tag)
@@ -11,7 +10,7 @@ module Brick
     def succeeded?(build)
       result = ""
 
-      MAX_TRIES.times do
+      Brick.bricklayer_tries.times do
         result = RestClient.get(log_uri % build).lines.to_a.last
         break if result =~ SUCCESS
         sleep 2
@@ -24,7 +23,7 @@ module Brick
     def project(tag)
       project = nil
 
-      MAX_TRIES.times do
+      Brick.bricklayer_tries.times do
         project = JSON.parse RestClient.get(project_uri)
         puts "project_: #{project}" if Brick.verbose?
         break if project["last_tag_testing"] == tag
@@ -41,7 +40,7 @@ module Brick
       build = nil
       done = false
 
-      MAX_TRIES.times do
+      Brick.bricklayer_tries.times do
         builds = JSON.parse RestClient.get(build_uri)
 
         builds.reverse.each do |item|
