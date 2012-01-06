@@ -3,11 +3,13 @@
 require "brick"
 
 options = Slop.parse help: true do
-  on :v, :verbose,    "Verbose mode"
-  on :b, :bricklayer, "Bricklayer host", true
-  on :n, :name,       "Project name",    true
-  on :s, :server,     "Deploy server",   true
-  on :u, :user,       "Deploy user",     true
+  on :v, :verbose,          "Verbose mode"
+  on :b, :bricklayer,       "Bricklayer host", true
+  on :n, :name,             "Project name",    true
+  on :s, :server,           "Deploy server",   true
+  on :u, :user,             "Deploy user",     true
+  on :m, :max_tries,        "Max tries to waiting ssh", optional: true
+  on :t, :bricklayer_tries, "Max tries to waiting bricklayer", optional: true
 end
 
 Brick.run!(options.to_hash)
