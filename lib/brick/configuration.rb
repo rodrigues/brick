@@ -8,8 +8,8 @@ module Brick
       self.package_name      = options[:name]
       self.deploy_server     = options[:server]
       self.deploy_user       = options[:user]
-      self.max_tries         = (options[:max_tries] || 50).to_i
-      self.bricklayer_tries  = (options[:bricklayer_tries] || 80).to_i
+      self.max_tries         = options.fetch(:max_tries, 50).to_i
+      self.bricklayer_tries  = options.fetch(:bricklayer_tries, 80).to_i
       @verbose               = options[:verbose]
     end
 
