@@ -3,8 +3,8 @@ module Brick
     extend self
 
     def deploy(tag)
-      Brick.max_tries.times do
-        Net::SSH.start Brick.deploy_server, Brick.deploy_user do |ssh|
+      Net::SSH.start Brick.deploy_server, Brick.deploy_user do |ssh|
+        Brick.max_tries.times do
           exec(ssh, "apt-get update")
           cache_show = exec(ssh, "apt-cache show #{Brick.package_name}")
           version = tag.split('_')[1]
