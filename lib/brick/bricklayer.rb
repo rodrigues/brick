@@ -2,6 +2,7 @@ module Brick
   module Bricklayer
     extend self
     SUCCESS = %r{^dpkg-buildpackage: full upload; Debian-native package \(full source is included\)}
+    ERROR   = %r{^dpkg-buildpackage: error:}
 
     def wait_build(tag)
       abort "build not succeeded" unless succeeded? build(tag, project(tag))
@@ -12,7 +13,7 @@ module Brick
 
       Brick.bricklayer_tries.times do
         result = RestClient.get(log_uri % build).lines.to_a.last
-        break if result =~ SUCCESS
+        break if result =~ SUCCESS or result =~ ERROR
         sleep 2
       end
 
